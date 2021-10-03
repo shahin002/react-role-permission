@@ -1,13 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+import {Route, Switch, useLocation} from "react-router-dom";
+import routes from "./routes";
 
 function App() {
-  return (
-      <div className="App">
-        <h2>Redux Integrated React</h2>
-        <img src={logo} className="App-logo" alt="logo" style={{ width: 200 }}/>
-      </div>
-  );
+
+
+    const location = useLocation();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const userData = localStorage.getItem("userData");
+
+        if (location.pathname !== '/') {
+            if (typeof userData === 'undefined' || userData === null) {
+                window.location.href = "/";
+            }
+        }
+
+    }, []);
+
+
+    return (
+        <div className="App">
+            {/* {
+        !isAuthenticated &&
+
+      } */}
+            <Switch>
+                {
+                    routes.map((route, index) => (
+                        <Route
+                            key={index}
+                            path={route.path}
+                            name={route.name}
+                            component={route.component}
+                        />
+                    ))
+                }
+            </Switch>
+        </div>
+    );
 }
 
 export default App;

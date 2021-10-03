@@ -5,6 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import HttpsRedirect from "react-https-redirect";
+import { ToastContainer, toast } from 'react-toastify';
+
+/**** Start Import CSS & JS ***********/
+
+import 'react-toastify/dist/ReactToastify.css';
+/**** End Import CSS ***********/
 
 // Import reducer
 import { Provider } from "react-redux";
@@ -12,6 +18,7 @@ import { Provider } from "react-redux";
 // Import Store
 import store from "./redux/backend/Store";
 
+toast.configure();
 
 ReactDOM.render(
     <Provider store={store}>
@@ -20,6 +27,7 @@ ReactDOM.render(
                 <App />
             </BrowserRouter>
         </HttpsRedirect>
+        <ToastContainer />
     </Provider>,
     document.getElementById("root")
 );
