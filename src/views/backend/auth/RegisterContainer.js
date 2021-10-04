@@ -1,10 +1,8 @@
 import React from 'react';
-import LoginForm from "../../../components/backend/auth/Login/LoginForm";
+import { Link } from 'react-router-dom';
+import RegisterForm from '../../../components/backend/auth/Register/RegisterForm';
 
-import "../../../assets/css/oneui.min.css";
-import {Link} from "react-router-dom";
-
-const LoginContainer = () => {
+const RegisterContainer = () => {
     return (
         <>
             <div id="page-container">
@@ -15,18 +13,18 @@ const LoginContainer = () => {
                                 <div className="row justify-content-center">
                                     <div className="col-md-8 col-lg-6 col-xl-4">
                                         <div className="block block-themed block-fx-shadow mb-0">
-                                            <div className="block-header">
-                                                <h3 className="block-title">Sign In</h3>
+                                            <div className="block-header bg-success">
+                                                <h3 className="block-title">Create Account</h3>
                                                 <div className="block-options">
                                                     {/* <a className="btn-block-option font-size-sm" href="op_auth_reminder.html">Forgot Password?</a> */}
-                                                    <Link className="btn-block-option" to="/sign-up" data-toggle="tooltip" data-placement="left" title="New Account"><i className="fa fa-user-plus"></i></Link>
+                                                    <Link className="btn-block-option" to="/" data-toggle="tooltip" data-placement="left" title="Sign In"><i className="fa fa-sign-in-alt"></i></Link>
                                                 </div>
                                             </div>
                                             <div className="block-content">
                                                 <div className="p-sm-3 px-lg-4 py-lg-5">
                                                     <h1 className="mb-2">OneUI</h1>
-                                                    <p>Welcome, please login.</p>
-                                                    <LoginForm/>
+                                                    <p>Please fill the following details to create a new account.</p>
+                                                    <RegisterForm />
                                                 </div>
                                             </div>
                                         </div>
@@ -44,4 +42,4 @@ const LoginContainer = () => {
     );
 }
 
-export default LoginContainer;
+export default RegisterContainer;
