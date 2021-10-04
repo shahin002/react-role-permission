@@ -13,7 +13,7 @@ const LoginForm = withRouter(({history, props}) => {
     const loginMessage = useSelector((state) => state.auth.loginMessage);
 
     useEffect(() => {
-        if (typeof loginMessage === null || typeof loginMessage === 'undefined') {
+        if (loginMessage === null || typeof loginMessage === 'undefined') {
             toast.error("Something Went Wrong", {
                 autoClose: 2000,
                 className: "dangerColor",
@@ -36,7 +36,7 @@ const LoginForm = withRouter(({history, props}) => {
                 });
             }
         }
-    }, [isLoggedIn, loginMessage]);
+    }, [isLoggedIn, loginMessage,history]);
 
     const submitHandler = (data) => {
         dispatch(loginSubmitAction(data));
@@ -57,6 +57,7 @@ const LoginForm = withRouter(({history, props}) => {
                                 required: 'Please give your username or email address',
                                 maxLength: 30
                             })}
+                            autoComplete="email"
                         />
                         {
                             errors.email &&
@@ -73,20 +74,14 @@ const LoginForm = withRouter(({history, props}) => {
                                    required: 'Please give your password',
                                    minLength: 6
                                })}
+                               autoComplete="current-password"
                         />
                         {
                             errors.password &&
                             <div className="text-danger text-sm">{errors.password.message}</div>
                         }
                     </div>
-                    <div className="form-group">
-                        <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="login-remember"
-                                   name="login-remember"/>
-                            <label className="custom-control-label font-w400" htmlFor="login-remember">Remember
-                                Me</label>
-                        </div>
-                    </div>
+
                 </div>
                 <div className="form-group row">
                     <div className="col-md-8 col-xl-8">

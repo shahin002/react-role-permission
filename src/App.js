@@ -34,6 +34,7 @@ function App() {
                             path={route.path}
                             name={route.name}
                             component={route.component}
+                            exact={route.exact}
                         />
                     ))
                 }

@@ -16,12 +16,7 @@ const LoginContainer = () => {
                                         <div className="block block-themed block-fx-shadow mb-0">
                                             <div className="block-header">
                                                 <h3 className="block-title">Sign In</h3>
-                                                <div className="block-options">
-                                                    <a className="btn-block-option font-size-sm" href="op_auth_reminder.html">Forgot Password?</a>
-                                                    <a className="btn-block-option" href="op_auth_signup.html" data-toggle="tooltip" data-placement="left" title="New Account">
-                                                        <i className="fa fa-user-plus"></i>
-                                                    </a>
-                                                </div>
+
                                             </div>
                                             <div className="block-content">
                                                 <div className="p-sm-3 px-lg-4 py-lg-5">
