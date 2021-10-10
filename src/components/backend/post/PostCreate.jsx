@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {storePostAction} from "../../../redux/backend/post/PostAction";
 
 const PostCreate = withRouter(({history, props}) => {
@@ -38,7 +38,7 @@ const PostCreate = withRouter(({history, props}) => {
                     </div>
                     <div className="col-sm-4 text-right hidden-xs">
                         <ol className="breadcrumb push-10-t">
-                            <li><a href="http://laravel07-starter.herokuapp.com/administrator/posts">Posts</a></li>
+                            <li><Link to="/dashboard/posts">Posts</Link></li>
                             <li className="link-effect">Create Post</li>
                         </ol>
                     </div>

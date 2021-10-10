@@ -20,7 +20,7 @@ const PostReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                isLoggedIn: action.payload.data,
+                postList: action.payload.data,
             };
 
         case Types.POST_CREATE:
