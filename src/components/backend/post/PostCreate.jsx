@@ -2,6 +2,7 @@ import React from 'react';
 import {useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {withRouter} from "react-router-dom";
+import {storePostAction} from "../../../redux/backend/post/PostAction";
 
 const PostCreate = withRouter(({history, props}) => {
     const {register, handleSubmit, errors, getValues} = useForm();
@@ -10,7 +11,7 @@ const PostCreate = withRouter(({history, props}) => {
     const postAddMessage = useSelector((state) => state.post.postAddMessage);
 
     const submitHandler = (data) => {
-        // dispatch(storePostAction(data));
+        dispatch(storePostAction(data));
     }
     return (
         <>

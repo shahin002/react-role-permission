@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import HttpsRedirect from "react-https-redirect";
 import { ToastContainer, toast } from 'react-toastify';
+import LocalStorageService from "./services/LocalStorageService";
+
 
 /**** Start Import CSS & JS ***********/
 
@@ -18,8 +20,13 @@ import { Provider } from "react-redux";
 // Import Store
 import store from "./redux/backend/Store";
 
+// Import axios.js so that it can inject token in every request
+require ('./services/axios');
+
 toast.configure();
 
+// Import Local storage to get access tokens
+const localStorageService = LocalStorageService.getService();
 ReactDOM.render(
     <Provider store={store}>
         <HttpsRedirect>
