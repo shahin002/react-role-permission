@@ -7,7 +7,8 @@ const initialState = {
     authTokenData: {},
     loginMessage: "",
     registerMessage: "",
-    isLoading: false
+    isLoading: false,
+    submitLogout: false
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -52,6 +53,15 @@ const AuthReducer = (state = initialState, action) => {
                 isLoggedIn: action.payload.status,
                 authUserData: action.payload.userData,
                 authTokenData: action.payload.tokenData,
+            };
+
+        case Types.LOGOUT_AUTH:
+            return {
+                ...state,
+                isLoggedIn: action.payload.status,
+                authUserData: action.payload.userData,
+                authTokenData: action.payload.tokenData,
+                submitLogout: true
             };
 
         case Types.AUTH_GET_LOGIN_DATA:

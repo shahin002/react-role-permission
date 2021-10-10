@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
 const HeaderSidebar = () => {
     return (
@@ -23,54 +24,26 @@ const HeaderSidebar = () => {
                 <div className="content-side content-side-full">
                     <ul className="nav-main">
                         <li className="nav-main-item">
-                            <a className="nav-main-link active" href="be_pages_dashboard.html">
+                            <Link to="/dashboard" className="nav-main-link active" href="be_pages_dashboard.html">
                                 <i className="nav-main-link-icon si si-speedometer"></i>
                                 <span className="nav-main-link-name">Dashboard</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-main-item">
-                            <a className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <Link to="/dashboard/posts" className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" >
                                 <i className="nav-main-link-icon si si-layers"></i>
-                                <span className="nav-main-link-name">Page Packs</span>
-                            </a>
+                                <span className="nav-main-link-name">Posts</span>
+                            </Link>
                             <ul className="nav-main-submenu">
                                 <li className="nav-main-item">
-                                    <a className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                                    <Link to="/dashboard/posts"  className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" >
                                         <i className="nav-main-link-icon si si-bag"></i>
-                                        <span className="nav-main-link-name">e-Commerce</span>
-                                    </a>
-                                    <ul className="nav-main-submenu">
-                                        <li className="nav-main-item">
-                                            <a className="nav-main-link" href="be_pages_ecom_dashboard.html">
-                                                <span className="nav-main-link-name">Dashboard</span>
-                                            </a>
-                                        </li>
-                                        <li className="nav-main-item">
-                                            <a className="nav-main-link" href="be_pages_ecom_orders.html">
-                                                <span className="nav-main-link-name">Orders</span>
-                                            </a>
-                                        </li>
-                                        <li className="nav-main-item">
-                                            <a className="nav-main-link" href="be_pages_ecom_order.html">
-                                                <span className="nav-main-link-name">Order</span>
-                                            </a>
-                                        </li>
-                                        <li className="nav-main-item">
-                                            <a className="nav-main-link" href="be_pages_ecom_products.html">
-                                                <span className="nav-main-link-name">Products</span>
-                                            </a>
-                                        </li>
-                                        <li className="nav-main-item">
-                                            <a className="nav-main-link" href="be_pages_ecom_product_edit.html">
-                                                <span className="nav-main-link-name">Product Edit</span>
-                                            </a>
-                                        </li>
-                                        <li className="nav-main-item">
-                                            <a className="nav-main-link" href="be_pages_ecom_customer.html">
-                                                <span className="nav-main-link-name">Customer</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                        <span className="nav-main-link-name">Post List</span>
+                                    </Link>
+                                    <Link to="/dashboard/posts/create"  className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" >
+                                        <i className="nav-main-link-icon si si-bag"></i>
+                                        <span className="nav-main-link-name">Post Create</span>
+                                    </Link>
                                 </li>
                                 <li className="nav-main-item">
                                     <a className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
