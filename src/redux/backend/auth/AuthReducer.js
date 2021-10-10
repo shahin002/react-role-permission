@@ -45,6 +45,15 @@ const AuthReducer = (state = initialState, action) => {
                 isLoading: action.payload.isLoading
             };
 
+        case Types.GET_AUTH_DATA:
+
+            return {
+                ...state,
+                isLoggedIn: action.payload.status,
+                authUserData: action.payload.userData,
+                authTokenData: action.payload.tokenData,
+            };
+
         case Types.AUTH_GET_LOGIN_DATA:
             const authTokenData =
                 JSON.parse(localStorage.getItem("tokenData")) || "undefined";
