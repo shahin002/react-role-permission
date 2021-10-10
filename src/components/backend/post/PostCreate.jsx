@@ -5,7 +5,7 @@ import {withRouter} from "react-router-dom";
 import {storePostAction} from "../../../redux/backend/post/PostAction";
 
 const PostCreate = withRouter(({history, props}) => {
-    const {register, handleSubmit, errors, getValues} = useForm();
+    const {register, handleSubmit, errors, getValues,reset} = useForm();
     const dispatch = useDispatch();
     const isLoading = useSelector((state) => state.post.isLoading);
     const postAddMessage = useSelector((state) => state.post.postAddMessage);
