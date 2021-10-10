@@ -6,7 +6,7 @@ export const loginSubmitAction = (postData) => async (dispatch) => {
         status: false,
         message: "",
         isLoading: true,
-        tokenData: null,
+        access_token: null,
         userData: null
     };
     dispatch({ type: Types.AUTH_LOGIN_CHECK, payload: data });
@@ -17,7 +17,7 @@ export const loginSubmitAction = (postData) => async (dispatch) => {
             data.message = response.response.message;
             if(response.meta.status === 200){
                 data.status = true;
-                data.tokenData =response.response.token;
+                data.access_token =response.response.token;
                 // Fetch and get the user information and set to localstorage
                 data.userData = await getProfileInformation(response.response.token);
             }else{
@@ -37,7 +37,7 @@ export const registerSubmitAction = (postData) => async (dispatch) => {
         status: false,
         message: "",
         isLoading: true,
-        tokenData: null,
+        access_token: null,
         userData: null
     };
     dispatch({ type: Types.AUTH_REGISTER_SUBMIT, payload: data });
@@ -48,7 +48,7 @@ export const registerSubmitAction = (postData) => async (dispatch) => {
             const response = res.data;
             if(response.meta.status === 200){
                 data.status = true;
-                data.tokenData = response.response.token;
+                data.access_token = response.response.token;
                 data.message = "Account Created Successfully";
                 // Fetch and get the user information and set to localstorage
                 data.userData = await getProfileInformation(response.response.token);
@@ -68,17 +68,17 @@ export const registerSubmitAction = (postData) => async (dispatch) => {
 export const getAuthenticatedProfileInformationAction = () => async (dispatch) => {
     let data = {
         status: false,
-        tokenData: null,
+        access_token: null,
         userData: null
     };
 
     const userData = localStorage.getItem('userData');
-    const tokenData = localStorage.getItem('tokenData');
+    const access_token = localStorage.getItem('access_token');
 
-    if(userData != null && tokenData != null){
+    if(userData != null && access_token != null){
         data.status = true;
         data.userData = JSON.parse(userData);
-        data.tokenData = tokenData;
+        data.access_token = access_token;
     }else{
         data.status = false;
     }
@@ -89,12 +89,12 @@ export const getAuthenticatedProfileInformationAction = () => async (dispatch) =
 export const logoutAuthenticatedUser = () => async (dispatch) => {
     let data = {
         status: false,
-        tokenData: null,
+        access_token: null,
         userData: null
     };
 
     localStorage.removeItem('userData');
-    localStorage.removeItem('tokenData');
+    localStorage.removeItem('access_token');
     dispatch({ type: Types.LOGOUT_AUTH, payload: data });
 };
 

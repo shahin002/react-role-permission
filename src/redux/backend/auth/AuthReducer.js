@@ -19,7 +19,8 @@ const AuthReducer = (state = initialState, action) => {
 
             // Store it to local storage
             localStorage.setItem('userData', JSON.stringify(action.payload.userData));
-            localStorage.setItem('tokenData', action.payload.tokenData);
+            localStorage.setItem('access_token', action.payload.access_token);
+            localStorage.setItem('refresh_token', action.payload.refresh_token);
 
             return {
                 ...state,
@@ -35,7 +36,8 @@ const AuthReducer = (state = initialState, action) => {
         case Types.AUTH_REGISTER_SUBMIT:
             // Store it to local storage
             localStorage.setItem('userData', JSON.stringify(action.payload.userData));
-            localStorage.setItem('tokenData', action.payload.tokenData);
+            localStorage.setItem('access_token', action.payload.access_token);
+            localStorage.setItem('refresh_token', action.payload.refresh_token);
 
             return {
                 ...state,
