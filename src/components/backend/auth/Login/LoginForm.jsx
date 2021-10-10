@@ -14,26 +14,14 @@ const LoginForm = withRouter(({history, props}) => {
 
     useEffect(() => {
         if (loginMessage === null || typeof loginMessage === 'undefined') {
-            toast.error("Something Went Wrong", {
-                autoClose: 2000,
-                className: "dangerColor",
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            toast.error("Something Went Wrong");
         } else {
             if (isLoggedIn && loginMessage.length > 0) {
-                toast.success(loginMessage, {
-                    autoClose: 2000,
-                    className: "primaryColor",
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                });
+                toast.success(loginMessage);
                 history.push("/dashboard");
             }
             if (!isLoggedIn && loginMessage.length > 0) {
-                toast.error(loginMessage, {
-                    autoClose: 2000,
-                    className: "dangerColor",
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                });
+                toast.error(loginMessage);
             }
         }
     }, [isLoggedIn, loginMessage,history]);

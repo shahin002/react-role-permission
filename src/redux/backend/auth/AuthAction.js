@@ -9,27 +9,39 @@ export const loginSubmitAction = (postData) => async (dispatch) => {
         access_token: null,
         userData: null
     };
-    dispatch({ type: Types.AUTH_LOGIN_CHECK, payload: data });
+    dispatch({type: Types.AUTH_LOGIN_CHECK, payload: data});
 
     await axios.post(`http://laravel07-starter.herokuapp.com/api/v1/sign-in`, postData)
         .then(async (res) => {
             const response = res.data;
             data.message = response.response.message;
-            if(response.meta.status === 200){
+            if (response.meta.status === 200) {
                 data.status = true;
-                data.access_token =response.response.token;
+                data.access_token = response.response.token;
+
+                // Store it to local storage
+                localStorage.setItem('access_token', response.response.token);
+                localStorage.setItem('refresh_token', response.response.refresh_token);
+
+
                 // Fetch and get the user information and set to localstorage
                 data.userData = await getProfileInformation(response.response.token);
-            }else{
+                localStorage.setItem('userData', JSON.stringify(data.userData));
+            } else {
                 data.status = false;
             }
         })
         .catch((err) => {
             data.message = err.data;
         });
+    if (data.status) {
+        toast.success(data.message);
+    } else {
+        toast.error(data.message);
+    }
 
     data.isLoading = false;
-    dispatch({ type: Types.AUTH_LOGIN_CHECK, payload: data });
+    dispatch({type: Types.AUTH_LOGIN_CHECK, payload: data});
 };
 
 export const registerSubmitAction = (postData) => async (dispatch) => {
@@ -40,19 +52,24 @@ export const registerSubmitAction = (postData) => async (dispatch) => {
         access_token: null,
         userData: null
     };
-    dispatch({ type: Types.AUTH_REGISTER_SUBMIT, payload: data });
+    dispatch({type: Types.AUTH_REGISTER_SUBMIT, payload: data});
 
     await axios.post(`http://laravel07-starter.herokuapp.com/api/v1/sign-up`, postData)
         .then(async (res) => {
-            console.log('res register', res);
             const response = res.data;
-            if(response.meta.status === 200){
+            if (response.meta.status === 200) {
                 data.status = true;
                 data.access_token = response.response.token;
                 data.message = "Account Created Successfully";
+
+                // Store it to local storage
+                localStorage.setItem('access_token', response.response.token);
+                localStorage.setItem('refresh_token', response.response.refresh_token);
+
                 // Fetch and get the user information and set to localstorage
                 data.userData = await getProfileInformation(response.response.token);
-            }else{
+                localStorage.setItem('userData', JSON.stringify(data.userData));
+            } else {
                 data.status = false;
                 data.message = res.data.response.message;
             }
@@ -62,7 +79,7 @@ export const registerSubmitAction = (postData) => async (dispatch) => {
         });
 
     data.isLoading = false;
-    dispatch({ type: Types.AUTH_REGISTER_SUBMIT, payload: data });
+    dispatch({type: Types.AUTH_REGISTER_SUBMIT, payload: data});
 };
 
 export const getAuthenticatedProfileInformationAction = () => async (dispatch) => {
@@ -75,15 +92,15 @@ export const getAuthenticatedProfileInformationAction = () => async (dispatch) =
     const userData = localStorage.getItem('userData');
     const access_token = localStorage.getItem('access_token');
 
-    if(userData != null && access_token != null){
+    if (userData != null && access_token != null) {
         data.status = true;
         data.userData = JSON.parse(userData);
         data.access_token = access_token;
-    }else{
+    } else {
         data.status = false;
     }
 
-    dispatch({ type: Types.GET_AUTH_DATA, payload: data });
+    dispatch({type: Types.GET_AUTH_DATA, payload: data});
 };
 
 export const logoutAuthenticatedUser = () => async (dispatch) => {
@@ -95,27 +112,22 @@ export const logoutAuthenticatedUser = () => async (dispatch) => {
 
     localStorage.removeItem('userData');
     localStorage.removeItem('access_token');
-    dispatch({ type: Types.LOGOUT_AUTH, payload: data });
+    dispatch({type: Types.LOGOUT_AUTH, payload: data});
 };
 
 async function getProfileInformation(token) {
     let userInfo = {};
-    const headerData = {
-        headers: {
-            "Access-Control-Allow-Origin" : "*",
-            "Content-type": "Application/json",
-            "Authorization": `${token}`
-        }
-    }
 
-    await axios.get(`http://laravel07-starter.herokuapp.com/api/v1/user-info`, headerData)
+
+    await axios.get(`http://laravel07-starter.herokuapp.com/api/v1/user-info`)
         .then((res) => {
             const response = res.data;
-            if(response.meta.status === 200){
-                userInfo =response.response.user;
+            if (response.meta.status === 200) {
+                userInfo = response.response.user;
             }
         })
         .catch((err) => {
+            console.log('profile fetch err', err);
         });
     return userInfo;
 }
