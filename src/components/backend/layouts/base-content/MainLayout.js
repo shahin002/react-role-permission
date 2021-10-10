@@ -1,4 +1,3 @@
-
 // Footer Components
 
 import Footer from '../footer/Footer';
@@ -10,20 +9,23 @@ import CommonModals from "../modals/CommonModals";
 const MainLayout = (props) => {
     return (
         <>
-            <div id="page-container" className="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+            <div id="page-container"
+                 className="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
                 {/* Include Header */}
 
-                <Sidebar />
-                <Header />
+                <Sidebar/>
+                <Header/>
 
                 {/* Include Additional Props */}
                 <main id="main-container">
-                    {props.children && props.children }
+                    <>
+                        {props.children && props.children}
+                    </>
                 </main>
 
                 {/* Include Footer */}
-                <Footer />
-                <CommonModals />
+                <Footer/>
+                <CommonModals/>
 
             </div>
 
