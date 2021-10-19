@@ -3,7 +3,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import {REFRESH_USER_PAYLOAD} from "../Types";
 
-export const getUserAction = () => async (dispatch) => {
+export const getUserAction = () => (dispatch) => {
     let data = {
         status: false,
         message: "",
@@ -13,9 +13,8 @@ export const getUserAction = () => async (dispatch) => {
 
     dispatch({type: Types.USER_LIST, payload: data});
 
-    await axios
-        .get(`http://laravel07-starter.herokuapp.com/api/v1/user-list`)
-        .then(async (res) => {
+    axios.get(`http://laravel07-starter.herokuapp.com/api/v1/user-list`)
+        .then((res) => {
             const response = res.data;
             data.data = res.data.response.users;
             data.message = res.data.response.message;
@@ -24,16 +23,17 @@ export const getUserAction = () => async (dispatch) => {
             } else {
                 data.status = false;
             }
+            data.isLoading = false;
+            dispatch({type: Types.USER_LIST, payload: data});
         })
         .catch((err) => {
             data.message = err.data;
+            data.isLoading = false;
+            dispatch({type: Types.USER_LIST, payload: data});
         });
-
-    data.isLoading = false;
-    dispatch({type: Types.USER_LIST, payload: data});
 };
 
-export const getUserDetailAction = (id) => async (dispatch) => {
+export const getUserDetailAction = (id) => (dispatch) => {
     let data = {
         status: false,
         message: "",
@@ -41,26 +41,28 @@ export const getUserDetailAction = (id) => async (dispatch) => {
         data: {},
     };
 
-    dispatch({type: Types.USER_SHOW, payload: data});
+    dispatch({ type: Types.USER_SHOW, payload: data });
 
-    await axios
+    axios
         .get(`http://laravel07-starter.herokuapp.com/api/v1/user-info/${id}`)
         .then((res) => {
             const {response} = res.data;
             data.data = response.user;
             data.message = response.message;
+            data.isLoading = false;
             if (response.meta.status === 200) {
                 data.status = true;
             } else {
                 data.status = false;
             }
+
+            dispatch({type: Types.USER_SHOW, payload: data});
         })
         .catch((err) => {
             data.message = err.data;
+            data.isLoading = false;
+            dispatch({type: Types.USER_SHOW, payload: data});
         });
-
-    data.isLoading = false;
-    dispatch({type: Types.USER_SHOW, payload: data});
 };
 
 
@@ -106,7 +108,7 @@ export const storeUserAction = (userData) => async (dispatch) => {
     dispatch({type: Types.USER_CREATE, payload: data});
 };
 
-export const userUpdateAction = (userData, id) => async (dispatch) => {
+export const userUpdateAction = (userData, id) => (dispatch) => {
     let data = {
         status: false,
         message: "",
@@ -116,15 +118,12 @@ export const userUpdateAction = (userData, id) => async (dispatch) => {
 
     dispatch({type: Types.USER_UPDATE, payload: data});
 
-    await axios
-        .put(
-            `http://laravel07-starter.herokuapp.com/api/v1/administrator/users/${id}`,
-            userData
-        )
+    axios.put(`http://laravel07-starter.herokuapp.com/api/v1/administrator/users/${id}`, userData)
         .then((res) => {
             const {response, meta} = res.data;
             data.data = response.user;
             data.message = response.message;
+            data.isLoading = false;
             if (meta.status === 200) {
                 data.status = true;
                 toast.success(response.message);
@@ -132,14 +131,19 @@ export const userUpdateAction = (userData, id) => async (dispatch) => {
                 data.status = false;
                 toast.error(response.message);
             }
+
+            dispatch({type: Types.USER_UPDATE, payload: data});
+
+            // Re-fetch again
+            dispatch(getUserDetailAction(id));
         })
         .catch((err) => {
             data.message = err.data;
+            data.isLoading = false;
             toast.error(data.message);
-        });
 
-    data.isLoading = false;
-    dispatch({type: Types.USER_UPDATE, payload: data});
+            dispatch({type: Types.USER_UPDATE, payload: data});
+        });
 };
 
 /**
@@ -147,7 +151,7 @@ export const userUpdateAction = (userData, id) => async (dispatch) => {
  *
  * @param {integer} id
  */
-export const getSingleUserAction = (id) => async (dispatch) => {
+export const getSingleUserAction = (id) => (dispatch) => {
     let data = {
         status: false,
         message: "",
@@ -157,26 +161,28 @@ export const getSingleUserAction = (id) => async (dispatch) => {
 
     dispatch({type: Types.USER_SHOW, payload: data});
 
-    await axios
+    axios
         .get(
             `http://laravel07-starter.herokuapp.com/api/v1/user-list/${id}`
         )
-        .then(async (res) => {
+        .then(res => {
             const response = res.data;
             data.data = res.data.response.user;
             data.message = res.data.response.message;
+            data.isLoading = false;
             if (response.meta.status === 200) {
                 data.status = true;
             } else {
                 data.status = false;
             }
+            dispatch({type: Types.USER_SHOW, payload: data});
         })
         .catch((err) => {
             data.message = err.data;
+            data.isLoading = false;
+            dispatch({type: Types.USER_SHOW, payload: data});
         });
 
-    data.isLoading = false;
-    dispatch({type: Types.USER_SHOW, payload: data});
 };
 
 /**
@@ -184,7 +190,7 @@ export const getSingleUserAction = (id) => async (dispatch) => {
  *
  * @param {integer} id
  */
-export const deleteUserAction = (id) => async (dispatch) => {
+export const deleteUserAction = (id) => (dispatch) => {
     let data = {
         status: false,
         message: "",
@@ -194,11 +200,11 @@ export const deleteUserAction = (id) => async (dispatch) => {
 
     dispatch({type: Types.USER_DELETE, payload: data});
 
-    await axios
+    axios
         .delete(
             `http://laravel07-starter.herokuapp.com/api/v1/administrator/users/${id}`
         )
-        .then(async (res) => {
+        .then(res => {
             const response = res.data;
             data.data = id;
             data.message = res.data.response.message;
@@ -209,52 +215,58 @@ export const deleteUserAction = (id) => async (dispatch) => {
                 data.status = false;
                 toast.error(data.message);
             }
+
+            data.isLoading = false;
+            dispatch({type: Types.USER_DELETE, payload: data});
         })
         .catch((err) => {
             data.message = err.data;
+            data.isLoading = false;
+            dispatch({type: Types.USER_DELETE, payload: data});
         });
-
-    data.isLoading = false;
-    dispatch({type: Types.USER_DELETE, payload: data});
 };
 
 
-export const getRolesAction = () => async (dispatch) => {
+export const getRolesAction = () => (dispatch) => {
     let data = {
         isLoading: true,
         all_roles: []
     };
     dispatch({type: Types.GET_USER_ROLES, payload: data});
-    await axios
+
+    axios
         .get(`http://laravel07-starter.herokuapp.com/api/v1/roles-list`)
-        .then(async (res) => {
+        .then(res => {
             const response = res.data;
             data.all_roles = response.response.roles;
+            data.isLoading = false;
+            dispatch({type: Types.GET_USER_ROLES, payload: data});
         })
         .catch((err) => {
-            console.log(err.data);
+            data.isLoading = false;
+            dispatch({type: Types.GET_USER_ROLES, payload: data});
         });
-    data.isLoading = false;
-    dispatch({type: Types.GET_USER_ROLES, payload: data});
 };
 
-export const getPermissionsAction = () => async (dispatch) => {
+export const getPermissionsAction = () => (dispatch) => {
     let data = {
         isLoading: true,
         all_permissions: []
     };
     dispatch({type: Types.GET_USER_PERMISSIONS, payload: data});
-    await axios
+
+    axios
         .get(`http://laravel07-starter.herokuapp.com/api/v1/permissions-list`)
-        .then(async (res) => {
+        .then(res => {
             const response = res.data;
             data.all_permissions = response.response.permissions;
+            data.isLoading = false;
+            dispatch({type: Types.GET_USER_PERMISSIONS, payload: data});
         })
         .catch((err) => {
-            console.log(err.data);
+            data.isLoading = false;
+            dispatch({type: Types.GET_USER_PERMISSIONS, payload: data});
         });
-    data.isLoading = false;
-    dispatch({type: Types.GET_USER_PERMISSIONS, payload: data});
 };
 
 export const refreshUserPayloads = () => (dispatch) => {
