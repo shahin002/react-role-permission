@@ -134,7 +134,7 @@ const UserEdit = withRouter(({history, match}, props) => {
                                                 <div className="form-material">
                                                     <label htmlFor="roles">Select Role</label>
                                                     <Select
-                                                        defaultValue={userData.roles}
+                                                        defaultValue={userData.old_roles}
                                                         isMulti
                                                         getOptionLabel={option => option.display_name}
                                                         getOptionValue={option => option.id}

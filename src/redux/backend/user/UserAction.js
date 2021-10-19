@@ -2,6 +2,7 @@ import * as Types from "../Types";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {REFRESH_USER_PAYLOAD} from "../Types";
+import { formatMultipleOptionsData } from "../../../services/DataFormatter";
 
 export const getUserAction = () => (dispatch) => {
     let data = {
@@ -48,6 +49,9 @@ export const getUserDetailAction = (id) => (dispatch) => {
         .then((res) => {
             const {response} = res.data;
             data.data = response.user;
+            data.data.permissions = formatMultipleOptionsData(response.user.extra_permissions);
+            data.data.old_roles = response.user.roles;
+            data.data.roles = formatMultipleOptionsData(response.user.roles);
             data.message = response.message;
             data.isLoading = false;
             if (response.meta.status === 200) {
