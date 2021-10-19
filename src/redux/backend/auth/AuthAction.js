@@ -22,7 +22,6 @@ export const loginSubmitAction = (postData) => async (dispatch) => {
 
                 // Store it to local storage
                 localStorage.setItem('access_token', response.response.token);
-                localStorage.setItem('refresh_token', response.response.refresh_token);
 
 
                 // Fetch and get the user information and set to localstorage
