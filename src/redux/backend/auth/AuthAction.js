@@ -14,18 +14,18 @@ export const loginSubmitAction = (postData) => async (dispatch) => {
 
     await axios.post(`http://laravel07-starter.herokuapp.com/api/v1/sign-in`, postData)
         .then(async (res) => {
-            const response = res.data;
-            data.message = response.response.message;
-            if (response.meta.status === 200) {
+            const {response, meta} = res.data;
+            data.message = response.message;
+            if (meta.status === 200) {
                 data.status = true;
-                data.access_token = response.response.token;
+                data.access_token = response.token;
 
                 // Store it to local storage
-                localStorage.setItem('access_token', response.response.token);
+                localStorage.setItem('access_token', response.token);
 
 
                 // Fetch and get the user information and set to localstorage
-                data.userData = await getProfileInformation(response.response.token);
+                data.userData = await getProfileInformation(response.token);
                 localStorage.setItem('userData', JSON.stringify(data.userData));
             } else {
                 data.status = false;

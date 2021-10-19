@@ -6,20 +6,17 @@ import {Link} from "react-router-dom";
 const UserListContainer = () => {
     return (
         <MainLayout>
-            <>
-                <div className="block">
-                    <div className="block-content">
-                        <div className="block-header">
-                            <h3 className="block-title col-md-6">User List</h3>
-                            <Link to="/dashboard/users/create" className="pull-right btn btn-primary btn-rounded">Add
-                                User
-                            </Link>
-                        </div>
-                        <UserList />
+            <div className="block">
+                <div className="block-content">
+                    <div className="block-header">
+                        <h3 className="block-title col-md-6">User List</h3>
+                        <Link to="/dashboard/users/create" className="pull-right btn btn-primary btn-rounded">Add
+                            User
+                        </Link>
                     </div>
+                    <UserList />
                 </div>
-            </>
-
+            </div>
         </MainLayout>
     );
 }

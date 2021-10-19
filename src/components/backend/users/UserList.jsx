@@ -1,6 +1,6 @@
-import React, { useEffect }  from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
+import React, {useEffect} from 'react';
+import {Link, withRouter} from 'react-router-dom';
+import {useSelector, useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
 import {deleteUserAction, getUserAction} from "../../../redux/backend/user/UserAction";
 
@@ -22,8 +22,8 @@ const UserList = () => {
             confirmButtonText: 'Yes, Delete',
             showCancelButton: true,
             cancelButtonText: 'No'
-        }).then((result)=>{
-            if (result.isConfirmed){
+        }).then((result) => {
+            if (result.isConfirmed) {
                 dispatch(deleteUserAction(id));
             }
         });
@@ -54,7 +54,7 @@ const UserList = () => {
                     {
                         userList.map((user, index) => (
                             <tr key={index}>
-                                <td>{index+1}</td>
+                                <td>{index + 1}</td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{Array.prototype.map.call(user.roles, s => s.display_name).join(", ")}</td>

@@ -16,10 +16,10 @@ export const getUserAction = () => async (dispatch) => {
     await axios
         .get(`http://laravel07-starter.herokuapp.com/api/v1/user-list`)
         .then(async (res) => {
-            const response = res.data;
-            data.data = res.data.response.users;
-            data.message = res.data.response.message;
-            if (response.meta.status === 200) {
+            const {response,meta} = res.data;
+            data.data = response.users;
+            data.message = response.response.message;
+            if (meta.status === 200) {
                 data.status = true;
             } else {
                 data.status = false;
@@ -46,10 +46,10 @@ export const getUserDetailAction = (id) => async (dispatch) => {
     await axios
         .get(`http://laravel07-starter.herokuapp.com/api/v1/user-info/${id}`)
         .then((res) => {
-            const {response} = res.data;
+            const {response,meta} = res.data;
             data.data = response.user;
             data.message = response.message;
-            if (response.meta.status === 200) {
+            if (meta.status === 200) {
                 data.status = true;
             } else {
                 data.status = false;
