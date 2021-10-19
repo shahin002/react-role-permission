@@ -30,6 +30,26 @@ const HeaderSidebar = () => {
                             </Link>
                         </li>
                         <li className="nav-main-item">
+                            <Link className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" to="#">
+                                <i className="nav-main-link-icon si si-layers"></i>
+                                <span className="nav-main-link-name">Access</span>
+                            </Link>
+                            <ul className="nav-main-submenu">
+                                <li className="nav-main-item">
+                                    <Link to="/dashboard/users" className="nav-main-link">
+                                        <i className="nav-main-link-icon si si-bag"></i>
+                                        <span className="nav-main-link-name">User Management</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-main-item">
+                                    <Link to="/dashboard/roles" className="nav-main-link">
+                                        <i className="nav-main-link-icon si si-bag"></i>
+                                        <span className="nav-main-link-name">Role Management</span>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className="nav-main-item">
                             <Link to="/dashboard/posts" className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" >
                                 <i className="nav-main-link-icon si si-layers"></i>
                                 <span className="nav-main-link-name">Posts</span>

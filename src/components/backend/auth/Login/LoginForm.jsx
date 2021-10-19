@@ -17,7 +17,7 @@ const LoginForm = withRouter(({history, props}) => {
             toast.error("Something Went Wrong");
         } else {
             if (isLoggedIn && loginMessage.length > 0) {
-                toast.success(loginMessage);
+                // toast.success(loginMessage);
                 history.push("/dashboard");
             }
             if (!isLoggedIn && loginMessage.length > 0) {

@@ -1,65 +1,71 @@
-import React, {useEffect} from 'react';
-import {useForm} from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, withRouter} from "react-router-dom";
-import {handleChangePostInput, refreshPostPayloads, storePostAction} from "../../../redux/backend/post/PostAction";
+import React, { useEffect } from 'react';
+import { useForm } from "react-hook-form";
+import { Link, useParams, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import {
+    getPostDetailAction,
+    handleChangePostInput,
+    postUpdateAction, refreshPostPayloads
+} from "../../../redux/backend/post/PostAction";
 
-const PostCreate = withRouter(({history, props}) => {
-    const {register, handleSubmit, errors, getValues,reset} = useForm();
+const PostEdit = withRouter(({ history, match }) => {
+    const { id } = useParams();
+    const { register, handleSubmit, errors, getValues, reset } = useForm();
     const dispatch = useDispatch();
     const isLoading = useSelector((state) => state.post.isLoading);
-    const postAddMessage = useSelector((state) => state.post.postAddMessage);
-    const postAddStatus = useSelector((state) => state.post.postAddStatus);
+    const postUpdateMessage = useSelector((state) => state.post.postUpdateMessage);
+    const postUpdateStatus = useSelector((state) => state.post.postUpdateStatus);
     const postData = useSelector((state) => state.post.postData);
 
     const submitHandler = (data) => {
-        dispatch(storePostAction(data));
+        dispatch(postUpdateAction(postData, postData.id));
     }
     const handleChangeTextInput = (name, value) => {
         dispatch(handleChangePostInput(name, value));
     };
+
     useEffect(() => {
-        if (typeof postAddMessage !== 'undefined' || postAddMessage !== null) {
-            if (postAddStatus && postAddMessage.length > 0) {
-                // We can push to list OR, make feilds empty.
-                reset({
-                    title: "",
-                    body: ""
-                });
+        dispatch(getPostDetailAction(match.params.id))
+
+        if (typeof postUpdateMessage !== 'undefined' || postUpdateMessage !== null) {
+            if (postUpdateStatus && postUpdateMessage.length > 0) {
                 dispatch(refreshPostPayloads())
                 history.push("/dashboard/posts");
+                // We can push to list OR, make feilds empty.
+                // reset({
+                //     title: "",
+                //     body: ""
+                // });
             }
         }
-    }, [postAddStatus, postAddMessage, history]);
+    }, [postUpdateStatus, postUpdateMessage,history]);
+
     return (
         <>
-            {/* <!-- Page Header --> */}
             <div className="content bg-gray-lighter">
                 <div className="row items-push">
                     <div className="col-sm-8">
                         <h1 className="page-heading">
-                            Create Post
+                            Edit Post
                         </h1>
                     </div>
                     <div className="col-sm-4 text-right hidden-xs">
                         <ol className="breadcrumb push-10-t">
-                            <li><Link to="/dashboard/posts">Posts</Link></li>
-                            <li className="link-effect">Create Post</li>
+                            <li>
+                                <Link to="/posts">Posts</Link>
+                            </li>
+                            <li className="link-effect">Edit Post</li>
                         </ol>
                     </div>
                 </div>
             </div>
-            {/* <!-- END Page Header --> */}
 
-            {/* <!-- Page Content --> */}
             <div className="content content-narrow">
                 <div className="row">
                     <div className="col-md-12">
-                        {/* <!-- Static Labels --> */}
                         <div className="block">
                             <div className="block-content block-content-narrow">
-                                <form className="form-horizontal push-10-t " onSubmit={handleSubmit(submitHandler)}
-                                      method="post">
+                                <form className="form-horizontal push-10-t add-post-form" onSubmit={handleSubmit(submitHandler)} method="POST">
                                     <div className="form-group">
                                         <div className="col-sm-12">
                                             <div className="form-material form-material-primary">
@@ -96,6 +102,7 @@ const PostCreate = withRouter(({history, props}) => {
                                                     id="post-body"
                                                     name="body"
                                                     placeholder="Post Description"
+                                                    required=""
                                                     aria-required="true"
                                                     ref={register({
                                                         required: 'Please give post description'
@@ -125,18 +132,17 @@ const PostCreate = withRouter(({history, props}) => {
                                                 <button className="btn btn-sm btn-primary" type="button" disabled>
                                                     Submitting ...
                                                 </button>
-                                            }                                            </div>
+                                            }
+                                        </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        {/* <!-- END Static Labels --> */}
                     </div>
                 </div>
             </div>
-            {/* <!-- END Page Content --> */}
         </>
     );
 })
 
-export default PostCreate;
+export default PostEdit;
